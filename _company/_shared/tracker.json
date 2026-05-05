@@ -1,0 +1,15 @@
+{
+  "tasks": [
+    {
+      "id": "20260504165053-p2o0",
+      "title": "Chip코인 투자 분석",
+      "description": "Chip코인 투자 분석해줘",
+      "owner": "agent",
+      "createdAt": "2026-05-04T16:50:53.764Z",
+      "status": "in_progress",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": []
+    }
+  ]
+}
