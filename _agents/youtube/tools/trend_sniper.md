@@ -4,12 +4,8 @@
 
 ## 필요한 것
 - Python 3 + `pip install google-api-python-client requests`
-- `youtube_account.json`에 `YOUTUBE_API_KEY` 채우기 (한 번만)
+- YouTube Data API v3 키 ([발급 안내](https://console.cloud.google.com/))
 - 로컬 LLM (Ollama 또는 LM Studio)이 켜져 있어야 함
-
-## 설정값 (trend_sniper.json)
-- `TARGET_KEYWORDS` — 분석할 키워드 배열
-- (API 키·Ollama URL·모델은 공유 `youtube_account.json`에서 자동 로드)
 
 ## 실행 방법
 패널의 [▶ 실행] 버튼을 누르거나 터미널에서:

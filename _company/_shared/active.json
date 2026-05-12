@@ -2,5 +2,18 @@
   "_migrated": true,
   "editor": {
     "activatedAt": "2026-05-09T15:47:39.752Z"
-  }
+  },
+  "secretary": {
+    "activatedAt": "2026-05-12T07:28:29.017Z"
+  },
+  "youtube": {
+    "activatedAt": "2026-05-12T07:28:29.017Z"
+  },
+  "writer": {
+    "activatedAt": "2026-05-12T07:28:29.017Z"
+  },
+  "designer": {
+    "activatedAt": "2026-05-12T07:28:29.017Z"
+  },
+  "_migrated_v2": true
 }

@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 """Trend Sniper — pulls top YouTube videos for target keywords, asks a local
 LLM (Ollama/LM Studio) to extract the algorithmic patterns, and writes a
-planning report next to this script.
-
-Shared keys (API key, OLLAMA_URL, MODEL) come from youtube_account.json so
-you only set them once. Per-tool keys (TARGET_KEYWORDS) come from
-trend_sniper.json. If a key exists in both, trend_sniper.json wins.
+planning report next to this script. Config is read from the sibling JSON
+file so users don't have to edit code.
 
 Requires:  pip install google-api-python-client requests
 """
@@ -13,7 +10,6 @@ import os, json, time, random, datetime, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONFIG_PATH = os.path.join(HERE, "trend_sniper.json")
-ACCOUNT_PATH = os.path.join(HERE, "youtube_account.json")
 REPORT_PATH = os.path.join(HERE, "trend_sniper_report.md")
 
 def load_config():
@@ -24,39 +20,19 @@ def load_config():
         print(f"❌ 설정 파일을 읽을 수 없어요: {CONFIG_PATH}\n{e}")
         sys.exit(1)
 
-def load_account():
-    try:
-        if os.path.exists(ACCOUNT_PATH):
-            with open(ACCOUNT_PATH, "r", encoding="utf-8") as f:
-                return json.load(f)
-    except Exception:
-        pass
-    return {}
-
-def _shared(cfg, acct, key, default=""):
-    """Per-tool config wins; falls back to shared account; finally default."""
-    v = cfg.get(key)
-    if v not in (None, "", []):
-        return v
-    v = acct.get(key)
-    if v not in (None, "", []):
-        return v
-    return default
-
 def main():
     cfg = load_config()
-    acct = load_account()
-    api_key = (_shared(cfg, acct, "YOUTUBE_API_KEY") or "").strip()
+    api_key = cfg.get("YOUTUBE_API_KEY", "").strip()
     if not api_key:
-        print("⚠️  YOUTUBE_API_KEY가 비어있어요. youtube_account.json 또는 trend_sniper.json에 입력하세요.")
+        print("⚠️  YOUTUBE_API_KEY가 비어있어요. 에이전트 패널에서 입력하거나 trend_sniper.json을 직접 편집하세요.")
         print("   발급: https://console.cloud.google.com/ → YouTube Data API v3 사용 설정 → 사용자 인증 정보 → API 키")
         sys.exit(1)
     target_keywords = cfg.get("TARGET_KEYWORDS", [])
     if not target_keywords:
         print("⚠️  TARGET_KEYWORDS가 비어있어요. 분석할 키워드를 1개 이상 추가하세요.")
         sys.exit(1)
-    ollama_url = (_shared(cfg, acct, "OLLAMA_URL", "http://127.0.0.1:11434") or "http://127.0.0.1:11434").rstrip("/")
-    model = _shared(cfg, acct, "MODEL", "") or ""
+    ollama_url = cfg.get("OLLAMA_URL", "http://127.0.0.1:11434").rstrip("/")
+    model = cfg.get("MODEL", "")
     pick = min(2, len(target_keywords))
     chosen = random.sample(target_keywords, pick)
 
